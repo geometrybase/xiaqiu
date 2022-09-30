@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Shaders, Node, GLSL } from 'gl-react';
-import { Surface } from 'gl-react-dom'; // for React DOM
+import React, {useEffect, useState} from 'react';
+import {Shaders, Node, GLSL} from 'gl-react';
+import {Surface} from 'gl-react-dom'; // for React DOM
 import './AnimatedBackground.css';
 
 const shaders = Shaders.create({
@@ -227,16 +227,31 @@ void main() {
   vec3 img3 = rgb2hsl(texture2D(t3, pos).xyz);
   vec3 img4 = rgb2hsl(texture2D(t4, pos).xyz);
   vec3 img5 = rgb2hsl(texture2D(t5, pos).xyz);
-  
+
   float s_factor = 0.0001;
   img1.z = fract(img1.z + time*s_factor);
   img2.z = fract(img2.z + time*s_factor);
   img3.z = fract(img3.z + time*s_factor);
   img4.z = fract(img4.z + time*s_factor);
   img5.z = fract(img5.z + time*s_factor);
- 
+
   vec3 img_merged = (img1+img2+img3+img4+img5)/5.0;
   img_merged.y = 1.0-fract(time*s_factor);
+  // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
+
+  // noise1
+  float a = fbm(vec3(uv.x*10.0*screenRatio, uv.y*10.0, time*0.0001));
+  // float b = smoothstep(0.0, 1.0, a - 0.05);
+  // img_merged.z = mix(
+  //   img_merged.z, 
+  //   max(1.0, img_merged.z+pow(a+0.25, 3.0)), 
+  //   b
+  // );
+  img_merged.z = fract(img_merged.z + img_merged.z/(1.0-a));
+  img_merged.x = 1.0;
+  img_merged.y = 0.0;
+  gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
+
   
   // // pos.x += 0.000001*time;
   // pos.x = fract(pos.x);
@@ -256,12 +271,12 @@ void main() {
   // );
   // gl_FragColor = vec4(hsl2rgb(targetColor), 1.0);
   
-  float cn = cnoise(vec3(uv.x*10.0*screenRatio, uv.y*10.0, time*0.0005));
+  // float cn = cnoise(vec3(uv.x*10.0*screenRatio, uv.y*10.0, time*0.0005));
   // gl_FragColor = vec4(n, n, n, 1.0);
   // return
   // gl_FragColor = vec4(n, n, n, 1.0);
   // img_merged.z = cn;
-  gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
+  // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
   
 
   
@@ -288,12 +303,12 @@ function shuffle(array) {
 
 let af = null;
 
-function AnimatedBackground({ width, height,  onClick }) {
+function AnimatedBackground({width, height, onClick}) {
   const [time, setTime] = useState(0);
   const [bgIndex, setBgIndex] = useState(0);
   useEffect(() => {
     let startTime, lastTime;
-    let interval = 1000/10 ;
+    let interval = 1000 / 10;
     lastTime = -interval;
 
     function loop(t) {
@@ -304,6 +319,7 @@ function AnimatedBackground({ width, height,  onClick }) {
         setTime(t - startTime);
       }
     }
+
     requestAnimationFrame(loop);
     return () => {
       cancelAnimationFrame(af);
