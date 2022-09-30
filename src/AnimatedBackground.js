@@ -318,12 +318,12 @@ function AnimatedBackground({ width, height,  onClick }) {
           shader={shaders.helloBlue}
           uniforms={{
             // t: '/home-bg.jpg',
-            t: '/1.jpg',
-            t1: '/1.jpg',
-            t2: '/2.jpg',
-            t3: '/3.jpg',
-            t4: '/4.jpg',
-            t5: '/5.png',
+            t: './1.jpg',
+            t1: './1.jpg',
+            t2: './2.jpg',
+            t3: './3.jpg',
+            t4: './4.jpg',
+            t5: './5.png',
             time: time,
             widthRatio: widthRatio,
             screenRatio: width / height,
