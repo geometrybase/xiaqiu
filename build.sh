@@ -2,6 +2,7 @@
 
 msg="overlay-5-images"
 
+npm run build
 git add -A
 git commit -m "$msg"
 git push -u origin main
