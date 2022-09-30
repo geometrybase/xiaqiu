@@ -236,7 +236,7 @@ void main() {
   img5.z = fract(img5.z + time*s_factor);
  
   vec3 img_merged = (img1+img2+img3+img4+img5)/5.0;
-  img_merged.y = 0.0;
+  img_merged.y = 1.0-fract(time*s_factor);
   
   // // pos.x += 0.000001*time;
   // pos.x = fract(pos.x);
