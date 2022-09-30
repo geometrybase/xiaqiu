@@ -240,7 +240,7 @@ void main() {
   // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
 
   // noise1
-  float a = fbm(vec3(uv.x*10.0*screenRatio, uv.y*10.0, time*0.0001));
+  float a = fbm(vec3(uv.x*100.0*screenRatio, uv.y*100.0, time*0.0001));
   // float b = smoothstep(0.0, 1.0, a - 0.05);
   // img_merged.z = mix(
   //   img_merged.z, 
