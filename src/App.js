@@ -1,25 +1,20 @@
-import logo from './logo.svg';
+import {withSize} from 'react-sizeme';
+import AnimatedBackground from './AnimatedBackground';
 import './App.css';
 
-function App() {
+
+const App = function ({size: {width, height}}) {
+  console.log(width, height)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AnimatedBackground
+        width={width / 4}
+        height={height / 4}
+        onClick={() => {
+        }}
+      />
     </div>
   );
 }
 
-export default App;
+export default withSize({monitorHeight: true})(App);
