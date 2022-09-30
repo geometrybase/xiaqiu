@@ -12,7 +12,6 @@ varying vec2 uv;
 uniform float widthRatio;
 uniform float screenRatio;
 uniform float time;
-uniform sampler2D t;
 uniform sampler2D t1;
 uniform sampler2D t2;
 uniform sampler2D t3;
@@ -218,15 +217,39 @@ vec3 rgb2hsl(vec3 color) {
 
      return hsl;
  }
+ 
+vec4 contrast(vec4 x, float s) {
+  return 1.0 / (1.0 + exp(-s * (x - 0.5)));    
+}
+
 
 void main() {
   vec2 pos = vec2(uv.x*widthRatio, uv.y);
   
-  vec3 img1 = rgb2hsl(texture2D(t1, pos).xyz);
-  vec3 img2 = rgb2hsl(texture2D(t2, pos).xyz);
-  vec3 img3 = rgb2hsl(texture2D(t3, pos).xyz);
-  vec3 img4 = rgb2hsl(texture2D(t4, pos).xyz);
-  vec3 img5 = rgb2hsl(texture2D(t5, pos).xyz);
+  vec3 img1 = texture2D(t1, pos).xyz;
+  vec3 img2 = texture2D(t2, pos).xyz;
+  vec3 img3 = texture2D(t3, pos).xyz;
+  vec3 img4 = texture2D(t4, pos).xyz;
+  vec3 img5 = texture2D(t5, pos).xyz;
+  
+  float contract_value = (fract(time*0.0001)-0.5)*0.1;
+  img1 = contrast(vec4(img1, 0.0), contract_value).xyz;
+  img2 = contrast(vec4(img2, 0.0), contract_value).xyz;
+  img3 = contrast(vec4(img3, 0.0), contract_value).xyz;
+  img4 = contrast(vec4(img4, 0.0), contract_value).xyz;
+  img5 = contrast(vec4(img5, 0.0), contract_value).xyz;
+  
+  img1 = rgb2hsl(img1);
+  img2 = rgb2hsl(img2);
+  img3 = rgb2hsl(img3);
+  img4 = rgb2hsl(img4);
+  img5 = rgb2hsl(img5);
+  
+  // vec3 img1 = rgb2hsl(texture2D(t1, pos).xyz);
+  // vec3 img2 = rgb2hsl(texture2D(t2, pos).xyz);
+  // vec3 img3 = rgb2hsl(texture2D(t3, pos).xyz);
+  // vec3 img4 = rgb2hsl(texture2D(t4, pos).xyz);
+  // vec3 img5 = rgb2hsl(texture2D(t5, pos).xyz);
 
   float s_factor = 0.0001;
   img1.z = fract(img1.z + time*s_factor);
@@ -237,7 +260,8 @@ void main() {
 
   vec3 img_merged = (img1+img2+img3+img4+img5)/5.0;
   img_merged.y = 1.0-fract(time*s_factor);
-  // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
+  img_merged.y  = 1.0;
+  gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
 
   // noise1
   float a = fbm(vec3(uv.x*100.0*screenRatio, uv.y*100.0, time*0.0001));
@@ -247,10 +271,10 @@ void main() {
   //   max(1.0, img_merged.z+pow(a+0.25, 3.0)), 
   //   b
   // );
-  img_merged.z = fract(img_merged.z + img_merged.z/(1.0-a));
-  img_merged.x = 1.0;
-  img_merged.y = 0.0;
-  gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
+  // img_merged.z = fract(img_merged.z + img_merged.z/(1.0-a));
+  // img_merged.x = 1.0;
+  // img_merged.y = 0.0;
+  // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
 
   
   // // pos.x += 0.000001*time;
@@ -333,8 +357,6 @@ function AnimatedBackground({width, height, onClick}) {
         <Node
           shader={shaders.helloBlue}
           uniforms={{
-            // t: '/home-bg.jpg',
-            t: './1.jpg',
             t1: './1.jpg',
             t2: './2.jpg',
             t3: './3.jpg',

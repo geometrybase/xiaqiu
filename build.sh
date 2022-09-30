@@ -1,6 +1,6 @@
 
 
-msg="noise2"
+msg="contrast1"
 
 npm run build
 git add -A
