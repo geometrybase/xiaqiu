@@ -264,7 +264,8 @@ void main() {
   img5.z = fract(img5.z*2.0 + time*s_factor)-img5.z*t_factor;
 
   vec3 img_merged = (img1+img2+img3+img4+img5)/5.0;
-  // img_merged.y = 1.0-fract(time*s_factor);
+  img_merged.y = (1.0-fract(time*s_factor))*0.5;
+  img_merged.x = fract(img_merged.x*img_merged.x + time*0.000001);
   // img_merged.y  = 0.0;
   gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
 
