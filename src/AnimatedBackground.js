@@ -225,19 +225,23 @@ vec4 contrast(vec4 x, float s) {
 
 void main() {
   vec2 pos = vec2(uv.x*widthRatio, uv.y);
+  vec2 pos1 = vec2(fract(pos.x+time*0.000001), fract(pos.y+time*0.000001));
+  vec2 pos2 = vec2(fract(pos.x+time*0.000002), fract(pos.y-time*0.00001));
+  vec2 pos3 = vec2(fract(pos.x+time*0.000007), fract(pos.y+time*0.00003));
+  vec2 pos4 = vec2(fract(pos.x-time*0.000009), fract(pos.y+time*0.00001));
+  vec2 pos5 = vec2(fract(pos.x-time*0.0000001), fract(pos.y+time*0.00001));
+  vec3 img1 = texture2D(t1, pos1).xyz;
+  vec3 img2 = texture2D(t2, pos2).xyz;
+  vec3 img3 = texture2D(t3, pos3).xyz;
+  vec3 img4 = texture2D(t4, pos4).xyz;
+  vec3 img5 = texture2D(t5, pos5).xyz;
   
-  vec3 img1 = texture2D(t1, pos).xyz;
-  vec3 img2 = texture2D(t2, pos).xyz;
-  vec3 img3 = texture2D(t3, pos).xyz;
-  vec3 img4 = texture2D(t4, pos).xyz;
-  vec3 img5 = texture2D(t5, pos).xyz;
-  
-  float contract_value = (fract(time*0.0001)-0.5)*0.1;
-  img1 = contrast(vec4(img1, 0.0), contract_value).xyz;
-  img2 = contrast(vec4(img2, 0.0), contract_value).xyz;
-  img3 = contrast(vec4(img3, 0.0), contract_value).xyz;
-  img4 = contrast(vec4(img4, 0.0), contract_value).xyz;
-  img5 = contrast(vec4(img5, 0.0), contract_value).xyz;
+  // float contract_value = (fract(time*0.0001)-0.5)*0.1;
+  // img1 = contrast(vec4(img1, 0.0), contract_value).xyz;
+  // img2 = contrast(vec4(img2, 0.0), contract_value).xyz;
+  // img3 = contrast(vec4(img3, 0.0), contract_value).xyz;
+  // img4 = contrast(vec4(img4, 0.0), contract_value).xyz;
+  // img5 = contrast(vec4(img5, 0.0), contract_value).xyz;
   
   img1 = rgb2hsl(img1);
   img2 = rgb2hsl(img2);
@@ -251,16 +255,17 @@ void main() {
   // vec3 img4 = rgb2hsl(texture2D(t4, pos).xyz);
   // vec3 img5 = rgb2hsl(texture2D(t5, pos).xyz);
 
-  float s_factor = 0.0001;
-  img1.z = fract(img1.z + time*s_factor);
-  img2.z = fract(img2.z + time*s_factor);
-  img3.z = fract(img3.z + time*s_factor);
-  img4.z = fract(img4.z + time*s_factor);
-  img5.z = fract(img5.z + time*s_factor);
+  float s_factor = 0.00005;
+  float t_factor = 0.00005;
+  img1.z = fract(img1.z*2.0 + time*s_factor)-img1.z*t_factor;
+  img2.z = fract(img2.z*2.0 + time*s_factor)-img2.z*t_factor;
+  img3.z = fract(img3.z*2.0 + time*s_factor)-img3.z*t_factor;
+  img4.z = fract(img4.z*2.0 + time*s_factor)-img4.z*t_factor;
+  img5.z = fract(img5.z*2.0 + time*s_factor)-img5.z*t_factor;
 
   vec3 img_merged = (img1+img2+img3+img4+img5)/5.0;
-  img_merged.y = 1.0-fract(time*s_factor);
-  img_merged.y  = 1.0;
+  // img_merged.y = 1.0-fract(time*s_factor);
+  // img_merged.y  = 0.0;
   gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
 
   // noise1

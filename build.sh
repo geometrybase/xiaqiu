@@ -1,6 +1,6 @@
 
 
-msg="contrast1"
+msg="move-images"
 
 npm run build
 git add -A
