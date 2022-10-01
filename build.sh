@@ -1,6 +1,6 @@
 
 
-msg="01-merge-5-to-1"
+msg="02-add-noise"
 
 npm run build
 git add -A

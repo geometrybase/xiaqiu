@@ -163,7 +163,7 @@ void main() {
 	col1 = softLightBlendFilter(vec4(col1, 1.0), vec4(col4,1.0)).xyz;
 	col1 = softLightBlendFilter(vec4(col1, 1.0), vec4(col5,1.0)).xyz;
 	
-	float contrast = 1.5;
+	float contrast = 0.8;
 	vec4 finalColor = vec4(((col1-vec3(0.5))*contrast)+vec3(0.5), 1.0);
 	
 	gl_FragColor = clamp(finalColor, 0.0, 1.0);
@@ -261,15 +261,15 @@ function AnimatedBackground({width, height, children: t}) {
   return (
     <div className={'AnimatedBackground'}>
       <Surface width={800} height={800} pixelRatio={window.devicePixelRatio}>
-        {/*<AddNoise>*/}
+        <AddNoise>
           <Node shader={shaders.Merge5To1}
                 uniforms={{
                   iTime: iTime,
                   t1: "./1.jpg", t2: "./2.jpg", t3: "./3.jpg", t4: "./4.jpg", t5: "./5.png",
                 }}/>
-          {/*<Node shader={shaders.PerlinNoise}*/}
-          {/*      uniforms={{}}/>*/}
-        {/*</AddNoise>*/}
+          <Node shader={shaders.PerlinNoise}
+                uniforms={{}}/>
+        </AddNoise>
       </Surface>
     </div>
   );

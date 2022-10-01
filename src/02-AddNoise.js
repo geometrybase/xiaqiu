@@ -39,7 +39,9 @@ vec3 BilinearTextureSample (sampler2D iChannel0, vec2 P)
 void main() {
   vec3 col1 = texture2D(t1, uv.xy).xyz;
 	vec3 col2 = BilinearTextureSample(t2, uv.xy);
-
+	float contrast = 2.0;
+	col2 = ((col2-vec3(0.5))*contrast)+vec3(0.5);
+	col2 = clamp(col2, 0.0, 1.0);
 	gl_FragColor = vec4(col2*col1, 1.0);
 }`
   }
