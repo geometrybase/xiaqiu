@@ -1,6 +1,7 @@
 
 
 msg="04-add-bilinear"
+msg="04-add-color"
 
 npm run build
 git add -A
