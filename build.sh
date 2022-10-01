@@ -1,6 +1,6 @@
 
 
-msg="final"
+msg="02-add-noise"
 
 npm run build
 git add -A

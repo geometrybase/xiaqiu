@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Shaders, Node, GLSL, Uniform} from 'gl-react';
 import {Surface} from 'gl-react-dom'; // for React DOM
-import AddNoise from "./01-AddNoise"
+import AddNoise from "./02-AddNoise"
 import './11-Final.css';
 
 const shaders = Shaders.create({
