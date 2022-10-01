@@ -2,6 +2,7 @@
 
 msg="04-add-bilinear"
 msg="03-add-color"
+msg="02-add-noise"
 
 npm run build
 git add -A
