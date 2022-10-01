@@ -292,19 +292,19 @@ function AnimatedBackground({width, height, children: t}) {
     // console.log(fac1)
 
 
-    function loop(t) {
-      af = requestAnimationFrame(loop);
-      if (!startTime) startTime = t;
-      if (t - lastTime > interval) {
-        lastTime = t;
-        setITime(t - startTime);
-      }
-    }
-
-    requestAnimationFrame(loop);
-    return () => {
-      cancelAnimationFrame(af);
-    };
+    // function loop(t) {
+    //   af = requestAnimationFrame(loop);
+    //   if (!startTime) startTime = t;
+    //   if (t - lastTime > interval) {
+    //     lastTime = t;
+    //     // setITime(t - startTime);
+    //   }
+    // }
+    //
+    // requestAnimationFrame(loop);
+    // return () => {
+    //   cancelAnimationFrame(af);
+    // };
   }, []);
   if (!color1 || !color2 || !color3 || !color4 || !color5) {
     return null
