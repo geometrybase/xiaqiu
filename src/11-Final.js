@@ -261,15 +261,15 @@ function AnimatedBackground({width, height, children: t}) {
   return (
     <div className={'AnimatedBackground'}>
       <Surface width={800} height={800} pixelRatio={window.devicePixelRatio}>
-        <AddNoise>
+        {/*<AddNoise>*/}
           <Node shader={shaders.Merge5To1}
                 uniforms={{
                   iTime: iTime,
                   t1: "./1.jpg", t2: "./2.jpg", t3: "./3.jpg", t4: "./4.jpg", t5: "./5.png",
                 }}/>
-          <Node shader={shaders.PerlinNoise}
-                uniforms={{}}/>
-        </AddNoise>
+          {/*<Node shader={shaders.PerlinNoise}*/}
+          {/*      uniforms={{}}/>*/}
+        {/*</AddNoise>*/}
       </Surface>
     </div>
   );
