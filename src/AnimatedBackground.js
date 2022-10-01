@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Shaders, Node, GLSL} from 'gl-react';
+import {Shaders, Node, GLSL, Uniform} from 'gl-react';
 import {Surface} from 'gl-react-dom'; // for React DOM
+import Blur from "./Blur";
 import './AnimatedBackground.css';
 
 const shaders = Shaders.create({
@@ -17,6 +18,11 @@ uniform sampler2D t2;
 uniform sampler2D t3;
 uniform sampler2D t4;
 uniform sampler2D t5;
+
+float c_textureSize = 64.0;
+
+#define c_onePixel  (1.0 / c_textureSize)
+#define c_twoPixels  (2.0 / c_textureSize)
 
 //    Classic Perlin 3D Noise 
 //    by Stefan Gustavson
@@ -222,97 +228,179 @@ vec4 contrast(vec4 x, float s) {
   return 1.0 / (1.0 + exp(-s * (x - 0.5)));    
 }
 
+vec3 BilinearTextureSample (sampler2D iChannel0, vec2 P)
+{
+    vec2 pixel = P * c_textureSize + 0.5;
+    
+    vec2 frac = fract(pixel);
+    pixel = (floor(pixel) / c_textureSize) - vec2(c_onePixel/2.0);
+
+    vec3 C11 = texture2D(iChannel0, pixel + vec2( 0.0        , 0.0)).xyz;
+    vec3 C21 = texture2D(iChannel0, pixel + vec2( c_onePixel , 0.0)).xyz;
+    vec3 C12 = texture2D(iChannel0, pixel + vec2( 0.0        , c_onePixel)).xyz;
+    vec3 C22 = texture2D(iChannel0, pixel + vec2( c_onePixel , c_onePixel)).xyz;
+
+    vec3 x1 = mix(C11, C21, frac.x);
+    vec3 x2 = mix(C12, C22, frac.x);
+    return mix(x1, x2, frac.y);
+}
 
 void main() {
+
   vec2 pos = vec2(uv.x*widthRatio, uv.y);
-  vec2 pos1 = vec2(fract(pos.x+time*0.000001), fract(pos.y+time*0.000001));
-  vec2 pos2 = vec2(fract(pos.x+time*0.000002), fract(pos.y-time*0.00001));
-  vec2 pos3 = vec2(fract(pos.x+time*0.000007), fract(pos.y+time*0.00003));
-  vec2 pos4 = vec2(fract(pos.x-time*0.000009), fract(pos.y+time*0.00001));
-  vec2 pos5 = vec2(fract(pos.x-time*0.0000001), fract(pos.y+time*0.00001));
-  vec3 img1 = texture2D(t1, pos1).xyz;
-  vec3 img2 = texture2D(t2, pos2).xyz;
-  vec3 img3 = texture2D(t3, pos3).xyz;
-  vec3 img4 = texture2D(t4, pos4).xyz;
-  vec3 img5 = texture2D(t5, pos5).xyz;
+	vec3 col = BilinearTextureSample(t1, pos);
+	gl_FragColor = vec4(col, 1.0);
+
+
+
+  // float x = round(uv.x*30.0)/30.0;
+  // float y = round(uv.y*30.0)/30.0; 
+  // vec2 pos = vec2(x*widthRatio, y);
+  //
+  // vec3 img1 = texture2D(t1, pos).xyz;
+  //
+  // vec3 img_merged = texture_Bilinear(img1, pos);
+  // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
+
   
-  // float contract_value = (fract(time*0.0001)-0.5)*0.1;
-  // img1 = contrast(vec4(img1, 0.0), contract_value).xyz;
-  // img2 = contrast(vec4(img2, 0.0), contract_value).xyz;
-  // img3 = contrast(vec4(img3, 0.0), contract_value).xyz;
-  // img4 = contrast(vec4(img4, 0.0), contract_value).xyz;
-  // img5 = contrast(vec4(img5, 0.0), contract_value).xyz;
   
-  img1 = rgb2hsl(img1);
-  img2 = rgb2hsl(img2);
-  img3 = rgb2hsl(img3);
-  img4 = rgb2hsl(img4);
-  img5 = rgb2hsl(img5);
-  
-  // vec3 img1 = rgb2hsl(texture2D(t1, pos).xyz);
   // vec3 img2 = rgb2hsl(texture2D(t2, pos).xyz);
   // vec3 img3 = rgb2hsl(texture2D(t3, pos).xyz);
   // vec3 img4 = rgb2hsl(texture2D(t4, pos).xyz);
   // vec3 img5 = rgb2hsl(texture2D(t5, pos).xyz);
-
-  float s_factor = 0.00005;
-  float t_factor = 0.00005;
-  img1.z = fract(img1.z*2.0 + time*s_factor)-img1.z*t_factor;
-  img2.z = fract(img2.z*2.0 + time*s_factor)-img2.z*t_factor;
-  img3.z = fract(img3.z*2.0 + time*s_factor)-img3.z*t_factor;
-  img4.z = fract(img4.z*2.0 + time*s_factor)-img4.z*t_factor;
-  img5.z = fract(img5.z*2.0 + time*s_factor)-img5.z*t_factor;
-
-  vec3 img_merged = (img1+img2+img3+img4+img5)/5.0;
-  img_merged.y = (1.0-fract(time*s_factor))*0.5;
-  img_merged.x = fract(img_merged.x*img_merged.x + time*0.000001);
-  // img_merged.y  = 0.0;
-  gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
-
-  // noise1
-  float a = fbm(vec3(uv.x*100.0*screenRatio, uv.y*100.0, time*0.0001));
-  // float b = smoothstep(0.0, 1.0, a - 0.05);
-  // img_merged.z = mix(
-  //   img_merged.z, 
-  //   max(1.0, img_merged.z+pow(a+0.25, 3.0)), 
-  //   b
-  // );
-  // img_merged.z = fract(img_merged.z + img_merged.z/(1.0-a));
-  // img_merged.x = 1.0;
-  // img_merged.y = 0.0;
+  //
+  // img1.z = img1.z*img1.z;
+  // img2.z = img2.z*img2.z;
+  // img3.z = img3.z*img3.z;
+  // img4.z = img4.z*img4.z;
+  // img5.z = img5.z*img5.z;
+  //
+  // vec3 img_merged = texture_Bilinear(img1, pos);
+  //
+  // // vec3 img_merged = (img1+img2+img3+img4+img5)/5.0;
+  //
+  // img_merged.y = 0.0; 
+  //
   // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
 
   
-  // // pos.x += 0.000001*time;
-  // pos.x = fract(pos.x);
-  // // float a = fbm(vec3(uv.x*1.0*screenRatio, uv.y*1.0, time*0.0001));
-  // float a = fbm(vec3(uv.x*50.0*screenRatio, uv.y*50.0, time*0.0001));
-  // vec3 color = hsv2rgb(vec3(a, 1.0, 1.0));
-  // vec3 targetColor = rgb2hsl(texture2D(t, pos).xyz);
+ 
+  // // // float contract_value = (fract(time*0.0001)-0.5)*0.1;
+  // // // img1 = contrast(vec4(img1, 0.0), contract_value).xyz;
+  // // // img2 = contrast(vec4(img2, 0.0), contract_value).xyz;
+  // // // img3 = contrast(vec4(img3, 0.0), contract_value).xyz;
+  // // // img4 = contrast(vec4(img4, 0.0), contract_value).xyz;
+  // // // img5 = contrast(vec4(img5, 0.0), contract_value).xyz;
+  // //
+  // // img1 = rgb2hsl(img1);
+  // // img2 = rgb2hsl(img2);
+  // // img3 = rgb2hsl(img3);
+  // // img4 = rgb2hsl(img4);
+  // // img5 = rgb2hsl(img5);
   //
-  
+  // // vec3 img1 = rgb2hsl(texture2D(t1, pos).xyz);
+  // // vec3 img2 = rgb2hsl(texture2D(t2, pos).xyz);
+  // // vec3 img3 = rgb2hsl(texture2D(t3, pos).xyz);
+  // // vec3 img4 = rgb2hsl(texture2D(t4, pos).xyz);
+  // // vec3 img5 = rgb2hsl(texture2D(t5, pos).xyz);
   //
+  // float s_factor = 0.00005;
+  // float t_factor = 0.00005;
+  // img1.z = fract(img1.z*2.0 + time*s_factor)-img1.z*t_factor;
+  // img2.z = fract(img2.z*2.0 + time*s_factor)-img2.z*t_factor;
+  // img3.z = fract(img3.z*2.0 + time*s_factor)-img3.z*t_factor;
+  // img4.z = fract(img4.z*2.0 + time*s_factor)-img4.z*t_factor;
+  // img5.z = fract(img5.z*2.0 + time*s_factor)-img5.z*t_factor;
   //
-  // float b = smoothstep(0.0, 1.0, a - 0.05);
-  // targetColor.z = mix(
-  //   targetColor.z, 
-  //   max(1.0, targetColor.z+pow(a+0.25, 3.0)), 
-  //   b
-  // );
-  // gl_FragColor = vec4(hsl2rgb(targetColor), 1.0);
-  
-  // float cn = cnoise(vec3(uv.x*10.0*screenRatio, uv.y*10.0, time*0.0005));
-  // gl_FragColor = vec4(n, n, n, 1.0);
-  // return
-  // gl_FragColor = vec4(n, n, n, 1.0);
-  // img_merged.z = cn;
+  // vec3 img_merged = (img1+img2+img3+img4+img5)/5.0;
+  // img_merged.y = (1.0-fract(time*s_factor))*0.5;
+  // img_merged.x = fract(img_merged.x*img_merged.x + time*0.000001);
+  // // img_merged.y  = 0.0;
   // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
+  //
+  // // noise1
+  // float a = fbm(vec3(uv.x*100.0*screenRatio, uv.y*100.0, time*0.0001));
+  // // float b = smoothstep(0.0, 1.0, a - 0.05);
+  // // img_merged.z = mix(
+  // //   img_merged.z, 
+  // //   max(1.0, img_merged.z+pow(a+0.25, 3.0)), 
+  // //   b
+  // // );
+  // // img_merged.z = fract(img_merged.z + img_merged.z/(1.0-a));
+  // // img_merged.x = 1.0;
+  // // img_merged.y = 0.0;
+  // // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
+  //
+  //
+  // // // pos.x += 0.000001*time;
+  // // pos.x = fract(pos.x);
+  // // // float a = fbm(vec3(uv.x*1.0*screenRatio, uv.y*1.0, time*0.0001));
+  // // float a = fbm(vec3(uv.x*50.0*screenRatio, uv.y*50.0, time*0.0001));
+  // // vec3 color = hsv2rgb(vec3(a, 1.0, 1.0));
+  // // vec3 targetColor = rgb2hsl(texture2D(t, pos).xyz);
+  // //
+  //
+  // //
+  // //
+  // // float b = smoothstep(0.0, 1.0, a - 0.05);
+  // // targetColor.z = mix(
+  // //   targetColor.z, 
+  // //   max(1.0, targetColor.z+pow(a+0.25, 3.0)), 
+  // //   b
+  // // );
+  // // gl_FragColor = vec4(hsl2rgb(targetColor), 1.0);
+  //
+  // // float cn = cnoise(vec3(uv.x*10.0*screenRatio, uv.y*10.0, time*0.0005));
+  // // gl_FragColor = vec4(n, n, n, 1.0);
+  // // return
+  // // gl_FragColor = vec4(n, n, n, 1.0);
+  // // img_merged.z = cn;
+  // // gl_FragColor = vec4(hsl2rgb(img_merged), 1.0);
+  //
+  //
   
-
-  
-}`,
+}`
   },
+  DiamondCrop: {
+    frag: GLSL`
+precision highp float;
+varying vec2 uv;
+uniform sampler2D t;
+void main() {
+  gl_FragColor = mix(
+    texture2D(t, uv),
+    vec4(0.0),
+    step(0.5, abs(uv.x - 0.5) + abs(uv.y - 0.5))
+  );
+}`
+  },
+  blur1D: {
+    // blur9: from https://github.com/Jam3/glsl-fast-gaussian-blur
+    frag: `precision highp float;
+varying vec2 uv;
+uniform sampler2D t;
+uniform vec2 direction, resolution;
+vec4 blur9(sampler2D image, vec2 uv, vec2 resolution, vec2 direction) {
+  vec4 color = vec4(0.0);
+  vec2 off1 = vec2(1.3846153846) * direction;
+  vec2 off2 = vec2(3.2307692308) * direction;
+  color += texture2D(image, uv) * 0.2270270270;
+  color += texture2D(image, uv + (off1 / resolution)) * 0.3162162162;
+  color += texture2D(image, uv - (off1 / resolution)) * 0.3162162162;
+  color += texture2D(image, uv + (off2 / resolution)) * 0.0702702703;
+  color += texture2D(image, uv - (off2 / resolution)) * 0.0702702703;
+  return color;
+}
+void main () {
+  gl_FragColor = blur9(t, uv, resolution, direction);
+}`
+  }
 });
+
+
+export const DiamondCrop = ({children: t}) => {
+  return <Node shader={shaders.DiamondCrop} uniforms={{t}}/>;
+}
 
 function shuffle(array) {
   var currentIndex = array.length,
@@ -346,7 +434,7 @@ function AnimatedBackground({width, height, onClick}) {
       if (!startTime) startTime = t;
       if (t - lastTime > interval) {
         lastTime = t;
-        setTime(t - startTime);
+        // setTime(t - startTime);
       }
     }
 
@@ -360,19 +448,21 @@ function AnimatedBackground({width, height, onClick}) {
   return (
     <div className={'AnimatedBackground'} onClick={onClick}>
       <Surface width={width} height={height} pixelRatio={window.devicePixelRatio}>
-        <Node
-          shader={shaders.helloBlue}
-          uniforms={{
-            t1: './1.jpg',
-            t2: './2.jpg',
-            t3: './3.jpg',
-            t4: './4.jpg',
-            t5: './5.png',
-            time: time,
-            widthRatio: widthRatio,
-            screenRatio: width / height,
-          }}
-        />
+        <Blur factor={1.0} passes={2}>
+            <Node
+              shader={shaders.helloBlue}
+              uniforms={{
+                t1: './1.jpg',
+                t2: './2.jpg',
+                t3: './3.jpg',
+                t4: './4.jpg',
+                t5: './5.png',
+                time: time,
+                widthRatio: widthRatio,
+                screenRatio: width / height,
+              }}
+            />
+        </Blur>
       </Surface>
     </div>
   );

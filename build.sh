@@ -1,6 +1,6 @@
 
 
-msg="move-images-hue-saturation"
+msg="final"
 
 npm run build
 git add -A

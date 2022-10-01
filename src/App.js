@@ -1,5 +1,5 @@
 import {withSize} from 'react-sizeme';
-import AnimatedBackground from './AnimatedBackground';
+import ABG from './11-Final';
 import './App.css';
 
 
@@ -7,11 +7,9 @@ const App = function ({size: {width, height}}) {
   console.log(width, height)
   return (
     <div className="App">
-      <AnimatedBackground
+      <ABG
         width={width / 4}
         height={height / 4}
-        onClick={() => {
-        }}
       />
     </div>
   );
