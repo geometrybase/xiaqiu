@@ -1,6 +1,6 @@
 
 
-msg="02-add-noise"
+msg="04-add-bilinear"
 
 npm run build
 git add -A
