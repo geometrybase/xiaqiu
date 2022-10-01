@@ -1,6 +1,6 @@
 
 
-msg="02-add-noise"
+msg="02-add-color"
 
 npm run build
 git add -A

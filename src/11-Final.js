@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Shaders, Node, GLSL, Uniform} from 'gl-react';
 import {Surface} from 'gl-react-dom'; // for React DOM
+import {FastAverageColor} from "fast-average-color";
 import AddNoise from "./02-AddNoise"
 import './11-Final.css';
+import AddColor from "./02-Add-Color";
 
 const shaders = Shaders.create({
   Merge5To1: {
@@ -236,11 +238,58 @@ export const DownSample = ({children: t}) => {
 
 function AnimatedBackground({width, height, children: t}) {
   const [iTime, setITime] = useState(0);
-  const [bgIndex, setBgIndex] = useState(0);
+  const [color1, setColor1] = useState(null);
+  const [color2, setColor2] = useState(null);
+  const [color3, setColor3] = useState(null);
+  const [color4, setColor4] = useState(null);
+  const [color5, setColor5] = useState(null);
   useEffect(() => {
     let startTime, lastTime;
     let interval = 1000 / 10;
     lastTime = -interval;
+
+    const fac1 = new FastAverageColor()
+    const fac2 = new FastAverageColor()
+    const fac3 = new FastAverageColor()
+    const fac4 = new FastAverageColor()
+    const fac5 = new FastAverageColor()
+    fac1.getColorAsync('./1.jpg')
+      .then(color => {
+        setColor1([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+      }).catch(e => {
+      console.log(e);
+    });
+
+    fac2.getColorAsync('./2.jpg')
+      .then(color => {
+        setColor2([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+      }).catch(e => {
+      console.log(e);
+    });
+
+    fac3.getColorAsync('./3.jpg')
+      .then(color => {
+        setColor3([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+      }).catch(e => {
+      console.log(e);
+    });
+
+    fac4.getColorAsync('./4.jpg')
+      .then(color => {
+        setColor4([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+      }).catch(e => {
+      console.log(e);
+    });
+
+    fac5.getColorAsync('./5.png')
+      .then(color => {
+        setColor5([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+      }).catch(e => {
+      console.log(e);
+    });
+
+    // console.log(fac1)
+
 
     function loop(t) {
       af = requestAnimationFrame(loop);
@@ -256,20 +305,34 @@ function AnimatedBackground({width, height, children: t}) {
       cancelAnimationFrame(af);
     };
   }, []);
+  if (!color1 || !color2 || !color3 || !color4 || !color5){
+    return null
+  }
 
   let widthRatio = 1.0; // width / height / (1336.0 / 700.0);
   return (
     <div className={'AnimatedBackground'}>
-      <Surface width={800} height={800} pixelRatio={window.devicePixelRatio}>
-        <AddNoise>
-          <Node shader={shaders.Merge5To1}
-                uniforms={{
-                  iTime: iTime,
-                  t1: "./1.jpg", t2: "./2.jpg", t3: "./3.jpg", t4: "./4.jpg", t5: "./5.png",
-                }}/>
-          <Node shader={shaders.PerlinNoise}
-                uniforms={{}}/>
-        </AddNoise>
+      <Surface width={800} height={800} pixelRatio={window.devicePixelRatio} version={"webgl2"}>
+        <AddColor
+          uniforms={{
+            color1,
+            color2,
+            color3,
+            color4,
+            color5,
+          }}
+        >
+          <AddNoise>
+            <Node shader={shaders.Merge5To1}
+                  uniforms={{
+                    iTime: iTime,
+                    t1: "./1.jpg", t2: "./2.jpg", t3: "./3.jpg", t4: "./4.jpg", t5: "./5.png",
+                  }}
+            />
+            <Node shader={shaders.PerlinNoise}
+                  uniforms={{}}/>
+          </AddNoise>
+        </AddColor>
       </Surface>
     </div>
   );
