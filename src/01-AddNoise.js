@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Shaders, Node, GLSL, Uniform} from 'gl-react';
 import {Surface} from 'gl-react-dom'; // for React DOM
 import Blur from "./Blur";
-import './AnimatedBackground.css';
+import './11-Final.css';
 
 const shaders = Shaders.create({
   AddNoise: {

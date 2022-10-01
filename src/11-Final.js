@@ -2,9 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Shaders, Node, GLSL, Uniform} from 'gl-react';
 import {Surface} from 'gl-react-dom'; // for React DOM
 import AddNoise from "./01-AddNoise"
-import Blur from "./Blur";
-import Mix from "./Mix"
-import './AnimatedBackground.css';
+import './11-Final.css';
 
 const shaders = Shaders.create({
   Merge5To1: {
@@ -262,7 +260,7 @@ function AnimatedBackground({width, height, children: t}) {
   let widthRatio = 1.0; // width / height / (1336.0 / 700.0);
   return (
     <div className={'AnimatedBackground'}>
-      <Surface width={width} height={height} pixelRatio={window.devicePixelRatio}>
+      <Surface width={800} height={800} pixelRatio={window.devicePixelRatio}>
         <AddNoise>
           <Node shader={shaders.Merge5To1}
                 uniforms={{

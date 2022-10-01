@@ -1,0 +1,11 @@
+.AnimatedBackground {
+    width: 800px;
+    height: 800px;
+    display: inline-block;
+}
+
+.AnimatedBackground > span {
+    width: 100%;
+    height: 100%;
+}
+
