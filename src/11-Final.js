@@ -200,7 +200,7 @@ float noise(vec2 p )
 }
 
 void main() {
-  float f = noise( 8.0*uv );
+  float f = noise( 16.0*uv );
   f = 0.5 + 0.5*f;
 	gl_FragColor = vec4(f,f,f,1.0);
 }`
@@ -328,7 +328,7 @@ function AnimatedBackground({width, height, children: t}) {
               <Node shader={shaders.Merge5To1}
                     uniforms={{
                       iTime: iTime,
-                      t1: "./1.jpg", t2: "./2.jpg", t3: "./3.jpg", t4: "./4.jpg", t5: "./5.png",
+                      t1: "./2.jpg", t2: "./3.jpg", t3: "./1.jpg", t4: "./4.jpg", t5: "./5.png",
                     }}
               />
               <Node shader={shaders.PerlinNoise}

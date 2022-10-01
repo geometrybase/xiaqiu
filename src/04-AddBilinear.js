@@ -6,7 +6,7 @@ const shaders = Shaders.create({
     frag: GLSL`
 precision highp float;
 
-float c_textureSize = 16.0;
+float c_textureSize = 32.0;
 
 #define c_onePixel  (1.0 / c_textureSize)
 #define c_twoPixels  (2.0 / c_textureSize)
@@ -34,7 +34,7 @@ vec3 BilinearTextureSample (sampler2D iChannel0, vec2 P)
 
 void main() {
 	vec3 col = BilinearTextureSample(t, uv.xy);
-	float contrast = 0.8;
+	float contrast = 1.0;
 	col = ((col-vec3(0.5))*contrast)+vec3(0.5);
 	col = clamp(col, 0.0, 1.0);
 	gl_FragColor = vec4(col, 1.0);
