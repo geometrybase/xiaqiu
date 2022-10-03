@@ -136,22 +136,21 @@ void main() {
 
   vec3 col = rgb2hsl(texture2D(t, uv.xy).xyz);
   vec3 col_origin = col;
-  float l =  sqrt(col.z)*col.z;
-  float step = 1.0/7.0;
-  vec3 start = vec3(0.0, 0.0, 1.0 - step*7.0);
+  float l = col.z;
+  vec3 start = vec3(0.0, 0.0, 0.0);
   vec3 end = vec3(1.0, 1.0, 1.0);
-  if (l < step) {
-    col.xyz = mix(start, col1.xyz, (l-step*0.0)/step);
-  }else if (l < step*2.0) {
-    col.xyz = mix(col1.xyz, col2.xyz, (l-step*1.0)/step);
-  }else if (l < step*3.0) {
-    col.xyz = mix(col2.xyz, col3.xyz, (l-step*2.0)/step);
-  }else if (l < step*4.0) {
-    col.xyz = mix(col3.xyz, col4.xyz, (l-step*3.0)/step);
-  }else if (l < step*5.0){
-    col.xyz = mix(col4.xyz, col5.xyz, (l-step*4.0)/step);
-  }else if (l < step*2.0){
-    col.xyz = mix(col5.xyz, end, (l-step*5.0)/step);
+  if (l < 0.34) {
+    col.xyz = mix(start, col1.xyz, l/0.34);
+  }else if (l < 0.42) {
+    col.xyz = mix(col1.xyz, col2.xyz, (l-0.34)/0.08);
+  }else if (l < 0.50) {
+    col.xyz = mix(col2.xyz, col3.xyz, (l-0.42)/0.08);
+  }else if (l < 0.58) {
+    col.xyz = mix(col3.xyz, col4.xyz, (l-0.50)/0.08);
+  }else if (l < 0.66){
+    col.xyz = mix(col4.xyz, col5.xyz, (l-0.58)/0.08);
+  }else {
+    col.xyz = mix(col5.xyz, end, (l-0.66)/0.34);
   }
   gl_FragColor = vec4(hsl2rgb(col), 1.0);
   
