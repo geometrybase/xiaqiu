@@ -335,37 +335,37 @@ function AnimatedBackground({width, height, children: t}) {
     const fac5 = new FastAverageColor()
     fac1.getColorAsync('./1.jpg')
       .then(color => {
+        console.log("COLOR1", color.value)
         setColor1([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
       }).catch(e => {
-      console.log(e);
     });
 
     fac2.getColorAsync('./2.jpg')
       .then(color => {
+        console.log("COLOR2", color.value)
         setColor2([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
       }).catch(e => {
-      console.log(e);
     });
 
     fac3.getColorAsync('./3.jpg')
       .then(color => {
+        console.log("COLOR3", color.value)
         setColor3([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
       }).catch(e => {
-      console.log(e);
     });
 
     fac4.getColorAsync('./4.jpg')
       .then(color => {
+        console.log("COLOR4", color.value)
         setColor4([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
       }).catch(e => {
-      console.log(e);
     });
 
     fac5.getColorAsync('./5.png')
       .then(color => {
+        console.log("COLOR5", color.value)
         setColor5([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
       }).catch(e => {
-      console.log(e);
     });
 
     // console.log(fac1)
@@ -393,16 +393,16 @@ function AnimatedBackground({width, height, children: t}) {
   return (
     <div className={'AnimatedBackground'}>
       <Surface width={800} height={800} pixelRatio={window.devicePixelRatio} version={"webgl2"}>
-        {/*<AddBiliner>*/}
-          {/*<AddColor*/}
-          {/*  uniforms={{*/}
-          {/*    color1,*/}
-          {/*    color2,*/}
-          {/*    color3,*/}
-          {/*    color4,*/}
-          {/*    color5,*/}
-          {/*  }}*/}
-          {/*>*/}
+        <AddBiliner>
+          <AddColor
+            uniforms={{
+              color1,
+              color2,
+              color3,
+              color4,
+              color5,
+            }}
+          >
             <AddNoise>
               <Node shader={shaders.Merge5To1}
                     uniforms={{
@@ -413,8 +413,8 @@ function AnimatedBackground({width, height, children: t}) {
               <Node shader={shaders.PerlinNoise}
                     uniforms={{}}/>
             </AddNoise>
-        {/*  </AddColor>*/}
-        {/*</AddBiliner>*/}
+          </AddColor>
+        </AddBiliner>
       </Surface>
     </div>
   );

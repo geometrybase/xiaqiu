@@ -126,6 +126,12 @@ vec3 BilinearTextureSample (sampler2D iChannel0, vec2 P)
     return mix(x1, x2, frac.y);
 }
 
+
+float random(float income){
+    return fract( (sin(income) * 4698.0101255) + (sin(income) * 29189.92918) + (sin(income) * 8.327) );
+}
+
+
 void main() {
 
   vec3 col1 = rgb2hsl(color1); 
@@ -140,7 +146,7 @@ void main() {
   vec3 start = vec3(0.0, 0.0, 0.0);
   vec3 end = vec3(1.0, 1.0, 1.0);
   if (l < 0.34) {
-    col.xyz = mix(start, col1.xyz, l/0.34);
+    col.xyz = mix(start, col1.xyz, l/0.34*l/0.34);
   }else if (l < 0.42) {
     col.xyz = mix(col1.xyz, col2.xyz, (l-0.34)/0.08);
   }else if (l < 0.50) {
@@ -167,7 +173,23 @@ void main() {
   //   col.xyz = mix(col5.xyz, end, (l-0.8)/0.2);
   // }
   
-  gl_FragColor = vec4(hsl2rgb(col), 1.0);
+  // gl_FragColor = vec4(hsl2rgb(col), 1.0);
+  
+  vec3 rand_col = vec3(sin(random(uv.x * 250.0 - uv.y *  2125.0)), sin(random(uv.x * 80.0 + uv.y *  1.0 )), sin(random(uv.x * 8.0 - uv.y *  32.0 )));
+  // col = hsl2rgb(col);
+  // if(l > 0.5){
+  //   col = col*(1.0-l*l) + rand_col*l*l;
+  //   // col = rand_col*col;
+  // }
+  if(rand_col.x > 0.8){
+    rand_col = rgb2hsl(rand_col);
+    rand_col.y = col.y;
+    rand_col.z = col.z; 
+    col = rand_col;
+  }
+   col = hsl2rgb(col);
+
+   gl_FragColor = vec4(col, 1.0);
   
 	// gl_FragColor = mix(col_origin, col, 1.0);
 }`
