@@ -181,7 +181,7 @@ void main() {
   //   col = col*(1.0-l*l) + rand_col*l*l;
   //   // col = rand_col*col;
   // }
-  if(rand_col.x > 0.8){
+  if(rand_col.x > 0.7){
     rand_col = rgb2hsl(rand_col);
     rand_col.y = col.y;
     rand_col.z = col.z; 

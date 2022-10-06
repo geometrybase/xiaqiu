@@ -393,28 +393,28 @@ function AnimatedBackground({width, height, children: t}) {
   return (
     <div className={'AnimatedBackground'}>
       <Surface width={800} height={800} pixelRatio={window.devicePixelRatio} version={"webgl2"}>
-        {/*<AddBiliner>*/}
-        {/*  <AddColor*/}
-        {/*    uniforms={{*/}
-        {/*      color1,*/}
-        {/*      color2,*/}
-        {/*      color3,*/}
-        {/*      color4,*/}
-        {/*      color5,*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    <AddNoise>*/}
+        <AddBiliner>
+          <AddColor
+            uniforms={{
+              color1,
+              color2,
+              color3,
+              color4,
+              color5,
+            }}
+          >
+            <AddNoise>
               <Node shader={shaders.Merge5To1}
                     uniforms={{
                       iTime: iTime,
                       t1: "./2.jpg", t2: "./3.jpg", t3: "./1.jpg", t4: "./4.jpg", t5: "./5.png",
                     }}
               />
-        {/*      <Node shader={shaders.PerlinNoise}*/}
-        {/*            uniforms={{}}/>*/}
-        {/*    </AddNoise>*/}
-        {/*  </AddColor>*/}
-        {/*</AddBiliner>*/}
+              <Node shader={shaders.PerlinNoise}
+                    uniforms={{}}/>
+            </AddNoise>
+          </AddColor>
+        </AddBiliner>
       </Surface>
     </div>
   );
