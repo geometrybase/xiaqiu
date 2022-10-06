@@ -1,8 +1,9 @@
 
 
 msg="04-add-bilinear"
-msg="02-add-noise"
-msg="03-add-color"
+#msg="02-add-noise"
+#msg="03-add-color"
+msg="01-merged-5to1"
 
 npm run build
 git add -A
