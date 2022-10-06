@@ -200,10 +200,89 @@ float noise(vec2 p )
 }
 
 void main() {
-  float f = noise( 16.0*uv );
-  f = 0.5 + 0.5*f;
+  // float f = noise( 16.0*uv );
+  // f = 0.5 + 0.5*f;
+	// gl_FragColor = vec4(f,f,f,1.0);
+	
+  float f = noise( 16.0*uv.xy );
+  f = 0.5 + 0.4*f;
 	gl_FragColor = vec4(f,f,f,1.0);
 }`
+  },
+  PerlinNoise2: {
+    frag: GLSL`
+precision highp float;
+varying vec2 uv;
+
+float hash(float v) 
+{ 
+    // Even more pseudo randomness
+    return fract(fract(v*11.3334)*fract(v*91.73362341)*43.123*429.32234643);  
+}
+
+float hash(vec2 v) 
+{ 
+    // Random numbers thrown together to produce other random numbers
+    return fract(hash(v.x*.97+v.y*.98)*143.94213); 
+}
+
+// https://en.wikipedia.org/wiki/Perlin_noise
+float perlin_noise(vec2 position){
+    // Fractional part is used for interpolation
+	vec2 fractional_part = fract(position);
+    // Integral part is used for sampling the hash function
+	vec2 integral_part = position-fractional_part;
+    
+    // Positon of the 4 nearest grid points
+	vec2 pos_00 = integral_part+vec2(0,0);
+	vec2 pos_10 = integral_part+vec2(1,0);
+	vec2 pos_11 = integral_part+vec2(1,1);
+	vec2 pos_01 = integral_part+vec2(0,1);
+
+	// Random gradient angle for each point
+	const float pi = 3.1415926535;
+	float ang_00=hash(pos_00)*2.0*pi;
+	float ang_10=hash(pos_10)*2.0*pi;
+	float ang_11=hash(pos_11)*2.0*pi;
+	float ang_01=hash(pos_01)*2.0*pi;
+
+	// Gradient vector for each point
+	vec2 grad_00 = vec2(cos(ang_00), sin(ang_00));
+	vec2 grad_10 = vec2(cos(ang_10), sin(ang_10));
+	vec2 grad_11 = vec2(cos(ang_11), sin(ang_11));
+	vec2 grad_01 = vec2(cos(ang_01), sin(ang_01));
+
+	// Distance to each point
+	vec2 dist_00 = vec2(0,0) - fractional_part;
+	vec2 dist_10 = vec2(1,0) - fractional_part;
+	vec2 dist_11 = vec2(1,1) - fractional_part;
+	vec2 dist_01 = vec2(0,1) - fractional_part;
+
+	// Dot products and interpolation
+	return mix(
+		mix(dot(dist_00, grad_00),dot(dist_10, grad_10),smoothstep(0.0, 1.0, fractional_part.x)),
+		mix(dot(dist_01, grad_01),dot(dist_11, grad_11),smoothstep(0.0, 1.0, fractional_part.x)),
+		smoothstep(0.0, 1.0, fractional_part.y)
+	)*.5+.5;
+}
+
+float fractal_perlin_noise(vec2 position){
+	float value = 0.0;
+    // Sum together various layers of noise
+	for (int i=1; i<16; i++)
+	{
+		float scale = pow(2.0,float(i)); // At different scales
+		float contrib = 1.0/scale; // Weighted accordint to scale
+		value += perlin_noise(position*scale)*contrib;
+	}
+	return value;
+}
+void main() {
+  float f = fractal_perlin_noise( uv.xy*2.0);
+  f =  0.1+ 0.9*f;
+	gl_FragColor = vec4(f,f,f,1.0);
+}
+`
   }
 });
 
@@ -314,16 +393,16 @@ function AnimatedBackground({width, height, children: t}) {
   return (
     <div className={'AnimatedBackground'}>
       <Surface width={800} height={800} pixelRatio={window.devicePixelRatio} version={"webgl2"}>
-        <AddBiliner>
-          <AddColor
-            uniforms={{
-              color1,
-              color2,
-              color3,
-              color4,
-              color5,
-            }}
-          >
+        {/*<AddBiliner>*/}
+          {/*<AddColor*/}
+          {/*  uniforms={{*/}
+          {/*    color1,*/}
+          {/*    color2,*/}
+          {/*    color3,*/}
+          {/*    color4,*/}
+          {/*    color5,*/}
+          {/*  }}*/}
+          {/*>*/}
             <AddNoise>
               <Node shader={shaders.Merge5To1}
                     uniforms={{
@@ -334,8 +413,8 @@ function AnimatedBackground({width, height, children: t}) {
               <Node shader={shaders.PerlinNoise}
                     uniforms={{}}/>
             </AddNoise>
-          </AddColor>
-        </AddBiliner>
+        {/*  </AddColor>*/}
+        {/*</AddBiliner>*/}
       </Surface>
     </div>
   );

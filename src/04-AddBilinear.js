@@ -6,7 +6,7 @@ const shaders = Shaders.create({
     frag: GLSL`
 precision highp float;
 
-float c_textureSize = 32.0;
+float c_textureSize = 48.0;
 
 #define c_onePixel  (1.0 / c_textureSize)
 #define c_twoPixels  (2.0 / c_textureSize)

@@ -152,6 +152,21 @@ void main() {
   }else {
     col.xyz = mix(col5.xyz, end, (l-0.66)/0.34);
   }
+  
+  // if (l < 0.2) {
+  //   col.xyz = mix(start, col1.xyz, l/0.2);
+  // }else if (l < 0.35) {
+  //   col.xyz = mix(col1.xyz, col2.xyz, (l-0.2)/0.15);
+  // }else if (l < 0.5) {
+  //   col.xyz = mix(col2.xyz, col3.xyz, (l-0.35)/0.15);
+  // }else if (l < 0.65) {
+  //   col.xyz = mix(col3.xyz, col4.xyz, (l-0.5)/0.15);
+  // }else if (l < 0.8){
+  //   col.xyz = mix(col4.xyz, col5.xyz, (l-0.65)/0.15);
+  // }else {
+  //   col.xyz = mix(col5.xyz, end, (l-0.8)/0.2);
+  // }
+  
   gl_FragColor = vec4(hsl2rgb(col), 1.0);
   
 	// gl_FragColor = mix(col_origin, col, 1.0);
