@@ -1,11 +1,22 @@
 .AnimatedBackground {
-    width: 800px;
-    height: 800px;
+    width: 100%;
+    height: 100%;
     display: inline-block;
 }
 
 .AnimatedBackground > span {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 0 !important;
+    padding-bottom: 100%;
+    display: block;
+    position: relative;
+}
+
+.AnimatedBackground > span > canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
 }
 
