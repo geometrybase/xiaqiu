@@ -364,10 +364,15 @@ function AnimatedBackground({width, height, children: t}) {
       }
     }).catch(function (error) {
       console.log(error);
+    }).finally(function () {
+      if(!!queryTimer){
+        clearTimeout(queryTimer)
+      }
+      queryTimer = setTimeout(() => {
+        queryImages()
+      }, 2000)
     });
-    queryTimer = setTimeout(() => {
-      queryImages()
-    }, 2000)
+
   }
 
   useEffect(() => {
