@@ -370,7 +370,7 @@ function AnimatedBackground({width, height, children: t}) {
       }
       queryTimer = setTimeout(() => {
         queryImages()
-      }, 2000)
+      }, 30000)
     });
 
   }
