@@ -329,13 +329,13 @@ function hexToRgb(hex) {
 var queryTimer = null
 
 function AnimatedBackground({width, height, children: t}) {
-  const [iTime, setITime] = useState(0);
+  // const [iTime, setITime] = useState(0);
 
-  const [color1, setColor1] = useState(null);
-  const [color2, setColor2] = useState(null);
-  const [color3, setColor3] = useState(null);
-  const [color4, setColor4] = useState(null);
-  const [color5, setColor5] = useState(null);
+  // const [color1, setColor1] = useState(null);
+  // const [color2, setColor2] = useState(null);
+  // const [color3, setColor3] = useState(null);
+  // const [color4, setColor4] = useState(null);
+  // const [color5, setColor5] = useState(null);
 
   const [images, setImages] = useState(null);
 
@@ -379,69 +379,73 @@ function AnimatedBackground({width, height, children: t}) {
     }
   }, [])
 
-  useEffect(() => {
-    let startTime, lastTime;
-    let interval = 1000 / 10;
-    lastTime = -interval;
+  // useEffect(() => {
+  //   let startTime, lastTime;
+  //   let interval = 1000 / 10;
+  //   lastTime = -interval;
+  //
+  //   const fac1 = new FastAverageColor()
+  //   const fac2 = new FastAverageColor()
+  //   const fac3 = new FastAverageColor()
+  //   const fac4 = new FastAverageColor()
+  //   const fac5 = new FastAverageColor()
+  //   fac1.getColorAsync('./1.jpg')
+  //     .then(color => {
+  //       console.log("COLOR1", color.value)
+  //       setColor1([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+  //     }).catch(e => {
+  //   });
+  //
+  //   fac2.getColorAsync('./2.jpg')
+  //     .then(color => {
+  //       console.log("COLOR2", color.value)
+  //       setColor2([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+  //     }).catch(e => {
+  //   });
+  //
+  //   fac3.getColorAsync('./3.jpg')
+  //     .then(color => {
+  //       console.log("COLOR3", color.value)
+  //       setColor3([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+  //     }).catch(e => {
+  //   });
+  //
+  //   fac4.getColorAsync('./4.jpg')
+  //     .then(color => {
+  //       console.log("COLOR4", color.value)
+  //       setColor4([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+  //     }).catch(e => {
+  //   });
+  //
+  //   fac5.getColorAsync('./5.png')
+  //     .then(color => {
+  //       console.log("COLOR5", color.value)
+  //       setColor5([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
+  //     }).catch(e => {
+  //   });
+  //
+  //   // console.log(fac1)
+  //
+  //
+  //   // function loop(t) {
+  //   //   af = requestAnimationFrame(loop);
+  //   //   if (!startTime) startTime = t;
+  //   //   if (t - lastTime > interval) {
+  //   //     lastTime = t;
+  //   //     // setITime(t - startTime);
+  //   //   }
+  //   // }
+  //   //
+  //   // requestAnimationFrame(loop);
+  //   // return () => {
+  //   //   cancelAnimationFrame(af);
+  //   // };
+  // }, []);
+  // if (!color1 || !color2 || !color3 || !color4 || !color5) {
+  //   return null
+  // }
 
-    const fac1 = new FastAverageColor()
-    const fac2 = new FastAverageColor()
-    const fac3 = new FastAverageColor()
-    const fac4 = new FastAverageColor()
-    const fac5 = new FastAverageColor()
-    fac1.getColorAsync('./1.jpg')
-      .then(color => {
-        console.log("COLOR1", color.value)
-        setColor1([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
-      }).catch(e => {
-    });
-
-    fac2.getColorAsync('./2.jpg')
-      .then(color => {
-        console.log("COLOR2", color.value)
-        setColor2([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
-      }).catch(e => {
-    });
-
-    fac3.getColorAsync('./3.jpg')
-      .then(color => {
-        console.log("COLOR3", color.value)
-        setColor3([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
-      }).catch(e => {
-    });
-
-    fac4.getColorAsync('./4.jpg')
-      .then(color => {
-        console.log("COLOR4", color.value)
-        setColor4([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
-      }).catch(e => {
-    });
-
-    fac5.getColorAsync('./5.png')
-      .then(color => {
-        console.log("COLOR5", color.value)
-        setColor5([color.value[0] / 255, color.value[1] / 255, color.value[2] / 255])
-      }).catch(e => {
-    });
-
-    // console.log(fac1)
-
-
-    // function loop(t) {
-    //   af = requestAnimationFrame(loop);
-    //   if (!startTime) startTime = t;
-    //   if (t - lastTime > interval) {
-    //     lastTime = t;
-    //     // setITime(t - startTime);
-    //   }
-    // }
-    //
-    // requestAnimationFrame(loop);
-    // return () => {
-    //   cancelAnimationFrame(af);
-    // };
-  }, []);
-  if (!color1 || !color2 || !color3 || !color4 || !color5) {
+  if (!images) {
     return null
   }
 
@@ -452,18 +456,22 @@ function AnimatedBackground({width, height, children: t}) {
         <AddBiliner>
           <AddColor
             uniforms={{
-              color1,
-              color2,
-              color3,
-              color4,
-              color5,
+              color1: images.c1,
+              color2: images.c2,
+              color3: images.c3,
+              color4: images.c4,
+              color5: images.c5,
             }}
           >
             <AddNoise>
               <Node shader={shaders.Merge5To1}
                     uniforms={{
-                      iTime: iTime,
-                      t1: "./2.jpg", t2: "./3.jpg", t3: "./1.jpg", t4: "./4.jpg", t5: "./5.png",
+                      iTime: 0,
+                      t1: images.u1,
+                      t2: images.u2,
+                      t3: images.u3,
+                      t4: images.u4,
+                      t5: images.u5,
                     }}
               />
               <Node shader={shaders.PerlinNoise}
