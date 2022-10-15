@@ -343,7 +343,6 @@ function AnimatedBackground({width, height, children: t}) {
     axios.post("https://www.unrooted.art/api/image/find", {
       "limit": 5, "sort": [["created_at", -1]]
     }).then(function ({data}) {
-
       if (data.code === 0 && !!data.data && !!data.data.results && data.data.results.length === 5) {
         let c1 = hexToRgb(data.data.results[0].color)
         let c2 = hexToRgb(data.data.results[1].color)
@@ -359,22 +358,23 @@ function AnimatedBackground({width, height, children: t}) {
           setImages({
             c1, c2, c3, c4, c5, u1, u2, u3, u4, u5
           })
+        }else{
+          console.log("bad data", data)
         }
       }
-      console.log(data);
     }).catch(function (error) {
       console.log(error);
     });
+    queryTimer = setTimeout(() => {
+      queryImages()
+    }, 2000)
   }
 
   useEffect(() => {
     queryImages()
-    queryTimer = setInterval(() => {
-      queryImages()
-    }, 15000)
     return () => {
       if (!!queryTimer) {
-        clearInterval(queryTimer)
+        clearTimeout(queryTimer)
       }
     }
   }, [])
