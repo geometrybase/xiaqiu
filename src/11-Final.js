@@ -7,6 +7,8 @@ import './11-Final.css';
 import AddColor from "./02-Add-Color";
 import AddBiliner from "./04-AddBilinear";
 
+const axios = require('axios').default;
+
 const shaders = Shaders.create({
   Merge5To1: {
     frag: GLSL`
@@ -315,14 +317,68 @@ export const DownSample = ({children: t}) => {
   return <Node shader={shaders.DownSample} uniforms={{t}}/>;
 }
 
+function hexToRgb(hex) {
+  let result = /^0x#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? [
+    parseInt(result[1], 16) / 255.0,
+    parseInt(result[2], 16) / 255.0,
+    parseInt(result[3], 16) / 255.0
+  ] : null;
+}
+
+var queryTimer = null
 
 function AnimatedBackground({width, height, children: t}) {
   const [iTime, setITime] = useState(0);
+
   const [color1, setColor1] = useState(null);
   const [color2, setColor2] = useState(null);
   const [color3, setColor3] = useState(null);
   const [color4, setColor4] = useState(null);
   const [color5, setColor5] = useState(null);
+
+  const [images, setImages] = useState(null);
+
+  const queryImages = () => {
+    axios.post("https://www.unrooted.art/api/image/find", {
+      "limit": 5, "sort": [["created_at", -1]]
+    }).then(function ({data}) {
+
+      if (data.code === 0 && !!data.data && !!data.data.results && data.data.results.length === 5) {
+        let c1 = hexToRgb(data.data.results[0].color)
+        let c2 = hexToRgb(data.data.results[1].color)
+        let c3 = hexToRgb(data.data.results[2].color)
+        let c4 = hexToRgb(data.data.results[3].color)
+        let c5 = hexToRgb(data.data.results[4].color)
+        let u1 = "///" + data.data.results[0].url
+        let u2 = "///" + data.data.results[1].url
+        let u3 = "///" + data.data.results[2].url
+        let u4 = "///" + data.data.results[3].url
+        let u5 = "///" + data.data.results[4].url
+        if (!!c1 && !!c2 && !!c3 && !!c4 && !!c5 && !!u1 && !!u2 && !!u3 && !!u4 && !!u5) {
+          setImages({
+            c1, c2, c3, c4, c5, u1, u2, u3, u4, u5
+          })
+        }
+      }
+      console.log(data);
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  useEffect(() => {
+    queryImages()
+    queryTimer = setInterval(() => {
+      queryImages()
+    }, 15000)
+    return () => {
+      if (!!queryTimer) {
+        clearInterval(queryTimer)
+      }
+    }
+  }, [])
+
   useEffect(() => {
     let startTime, lastTime;
     let interval = 1000 / 10;
