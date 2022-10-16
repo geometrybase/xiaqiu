@@ -457,6 +457,13 @@ function AnimatedBackground({width, height, children: t}) {
   let widthRatio = 1.0; // width / height / (1336.0 / 700.0);
   return (
     <div className={'AnimatedBackground'}>
+      <div className={"Colors"}>
+        <div style={{backgroundColor:`rgb(${Math.floor(images.c1[0]*255)}, ${Math.floor(images.c1[1]*255)}, ${Math.floor(images.c1[2]*255)})`}}></div>
+        <div style={{backgroundColor:`rgb(${Math.floor(images.c2[0]*255)}, ${Math.floor(images.c2[1]*255)}, ${Math.floor(images.c2[2]*255)})`}}></div>
+        <div style={{backgroundColor:`rgb(${Math.floor(images.c3[0]*255)}, ${Math.floor(images.c3[1]*255)}, ${Math.floor(images.c3[2]*255)})`}}></div>
+        <div style={{backgroundColor:`rgb(${Math.floor(images.c4[0]*255)}, ${Math.floor(images.c4[1]*255)}, ${Math.floor(images.c4[2]*255)})`}}></div>
+        <div style={{backgroundColor:`rgb(${Math.floor(images.c5[0]*255)}, ${Math.floor(images.c5[1]*255)}, ${Math.floor(images.c5[2]*255)})`}}></div>
+      </div>
       <Surface width={800} height={800} pixelRatio={window.devicePixelRatio} version={"webgl2"}>
         <AddBiliner>
           <AddColor
