@@ -454,16 +454,16 @@ function AnimatedBackground({width, height, children: t}) {
   return (
     <div className={'AnimatedBackground'}>
       <div className={"Colors"}>
-        <div
-          style={{backgroundColor: `rgb(${Math.floor(images.c1[0] * 255)}, ${Math.floor(images.c1[1] * 255)}, ${Math.floor(images.c1[2] * 255)})`}}></div>
-        <div
-          style={{backgroundColor: `rgb(${Math.floor(images.c2[0] * 255)}, ${Math.floor(images.c2[1] * 255)}, ${Math.floor(images.c2[2] * 255)})`}}></div>
-        <div
-          style={{backgroundColor: `rgb(${Math.floor(images.c3[0] * 255)}, ${Math.floor(images.c3[1] * 255)}, ${Math.floor(images.c3[2] * 255)})`}}></div>
-        <div
-          style={{backgroundColor: `rgb(${Math.floor(images.c4[0] * 255)}, ${Math.floor(images.c4[1] * 255)}, ${Math.floor(images.c4[2] * 255)})`}}></div>
-        <div
-          style={{backgroundColor: `rgb(${Math.floor(images.c5[0] * 255)}, ${Math.floor(images.c5[1] * 255)}, ${Math.floor(images.c5[2] * 255)})`}}></div>
+        {/*<div*/}
+        {/*  style={{backgroundColor: `rgb(${Math.floor(images.c1[0] * 255)}, ${Math.floor(images.c1[1] * 255)}, ${Math.floor(images.c1[2] * 255)})`}}></div>*/}
+        {/*<div*/}
+        {/*  style={{backgroundColor: `rgb(${Math.floor(images.c2[0] * 255)}, ${Math.floor(images.c2[1] * 255)}, ${Math.floor(images.c2[2] * 255)})`}}></div>*/}
+        {/*<div*/}
+        {/*  style={{backgroundColor: `rgb(${Math.floor(images.c3[0] * 255)}, ${Math.floor(images.c3[1] * 255)}, ${Math.floor(images.c3[2] * 255)})`}}></div>*/}
+        {/*<div*/}
+        {/*  style={{backgroundColor: `rgb(${Math.floor(images.c4[0] * 255)}, ${Math.floor(images.c4[1] * 255)}, ${Math.floor(images.c4[2] * 255)})`}}></div>*/}
+        {/*<div*/}
+        {/*  style={{backgroundColor: `rgb(${Math.floor(images.c5[0] * 255)}, ${Math.floor(images.c5[1] * 255)}, ${Math.floor(images.c5[2] * 255)})`}}></div>*/}
       </div>
       <Surface
         width={800}
