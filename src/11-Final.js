@@ -354,14 +354,14 @@ function AnimatedBackground({width, height, children: t}) {
           setImages({
             c1, c2, c3, c4, c5, u1, u2, u3, u4, u5
           })
-        }else{
+        } else {
           console.log("bad data", data)
         }
       }
     }).catch(function (error) {
       console.log(error);
     }).finally(function () {
-      if(!!queryTimer){
+      if (!!queryTimer) {
         clearTimeout(queryTimer)
       }
       queryTimer = setTimeout(() => {
@@ -454,13 +454,23 @@ function AnimatedBackground({width, height, children: t}) {
   return (
     <div className={'AnimatedBackground'}>
       <div className={"Colors"}>
-        <div style={{backgroundColor:`rgb(${Math.floor(images.c1[0]*255)}, ${Math.floor(images.c1[1]*255)}, ${Math.floor(images.c1[2]*255)})`}}></div>
-        <div style={{backgroundColor:`rgb(${Math.floor(images.c2[0]*255)}, ${Math.floor(images.c2[1]*255)}, ${Math.floor(images.c2[2]*255)})`}}></div>
-        <div style={{backgroundColor:`rgb(${Math.floor(images.c3[0]*255)}, ${Math.floor(images.c3[1]*255)}, ${Math.floor(images.c3[2]*255)})`}}></div>
-        <div style={{backgroundColor:`rgb(${Math.floor(images.c4[0]*255)}, ${Math.floor(images.c4[1]*255)}, ${Math.floor(images.c4[2]*255)})`}}></div>
-        <div style={{backgroundColor:`rgb(${Math.floor(images.c5[0]*255)}, ${Math.floor(images.c5[1]*255)}, ${Math.floor(images.c5[2]*255)})`}}></div>
+        <div
+          style={{backgroundColor: `rgb(${Math.floor(images.c1[0] * 255)}, ${Math.floor(images.c1[1] * 255)}, ${Math.floor(images.c1[2] * 255)})`}}></div>
+        <div
+          style={{backgroundColor: `rgb(${Math.floor(images.c2[0] * 255)}, ${Math.floor(images.c2[1] * 255)}, ${Math.floor(images.c2[2] * 255)})`}}></div>
+        <div
+          style={{backgroundColor: `rgb(${Math.floor(images.c3[0] * 255)}, ${Math.floor(images.c3[1] * 255)}, ${Math.floor(images.c3[2] * 255)})`}}></div>
+        <div
+          style={{backgroundColor: `rgb(${Math.floor(images.c4[0] * 255)}, ${Math.floor(images.c4[1] * 255)}, ${Math.floor(images.c4[2] * 255)})`}}></div>
+        <div
+          style={{backgroundColor: `rgb(${Math.floor(images.c5[0] * 255)}, ${Math.floor(images.c5[1] * 255)}, ${Math.floor(images.c5[2] * 255)})`}}></div>
       </div>
-      <Surface width={800*window.devicePixelRatio} height={800*window.devicePixelRatio} pixelRatio={window.devicePixelRatio} version={"webgl2"}>
+      <Surface
+        width={800}
+        height={800}
+        // pixelRatio={window.devicePixelRatio}
+        version={"webgl2"}
+      >
         <AddBiliner>
           <AddColor
             uniforms={{
