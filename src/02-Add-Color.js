@@ -220,26 +220,31 @@ void main() {
   }else if (l < 0.45) {
     col.xyz = mix(col1.xyz, col2.xyz, (l-0.40)/0.05);
     col = rgb2hsl(col);
-    col.z = (origin_col.z + 0.2*col.z)/1.2;
+    col.z = (origin_col.z + col.z)/2.0;
+    // col.z = (origin_col.z + 0.2*col.z)/1.2;
   }else if (l < 0.50) {
     col.xyz = mix(col2.xyz, col3.xyz, (l-0.45)/0.05);
     col = rgb2hsl(col);
-    col.z = (origin_col.z + 0.4*col.z)/1.4;
+    col.z = (origin_col.z + col.z)/2.0;
+    // col.z = (origin_col.z + 0.4*col.z)/1.4;
   }else if (l < 0.55) {
     col.xyz = mix(col3.xyz, col4.xyz, (l-0.50)/0.05);
     col = rgb2hsl(col);
-    col.z = (origin_col.z + 0.6*col.z)/1.6;
+    col.z = (origin_col.z + col.z)/2.0;
+    // col.z = (origin_col.z + 0.6*col.z)/1.6;
   }else if (l < 0.60){
     col.xyz = mix(col4.xyz, col5.xyz, (l-0.55)/0.05);
     col = rgb2hsl(col);
-    col.z = (origin_col.z + 0.8*col.z)/1.8;
+    col.z = (origin_col.z + col.z)/2.0;
+    // col.z = (origin_col.z + 0.8*col.z)/1.8;
   }else {
     col.xyz = mix(col5.xyz, end, (l-0.65)/0.35);
     col = rgb2hsl(col);
-    col.z = (origin_col.z + 2.0*col.z)/2.0;
+    col.z = (origin_col.z + col.z)/2.0;
+    // col.z = (origin_col.z + 2.0*col.z)/2.0;
   }
   col = hsl2rgb(col);
-  float contrast = 1.2;
+  float contrast = 1.0;
 	col = ((col-vec3(0.5))*contrast)+vec3(0.5);
   gl_FragColor = vec4(col, 1.0);
   
