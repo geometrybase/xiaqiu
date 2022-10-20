@@ -473,30 +473,32 @@ function AnimatedBackground({width, height, children: t}) {
         version={"webgl2"}
       >
         <AddBiliner>
-          <AddColor
-            uniforms={{
-              color1: images.c1,
-              color2: images.c2,
-              color3: images.c3,
-              color4: images.c4,
-              color5: images.c5,
-            }}
-          >
-            <AddNoise>
-              <Node shader={shaders.Merge5To1}
-                    uniforms={{
-                      iTime: 0,
-                      t1: images.u1,
-                      t2: images.u2,
-                      t3: images.u3,
-                      t4: images.u4,
-                      t5: images.u5,
-                    }}
-              />
-              <Node shader={shaders.PerlinNoise}
-                    uniforms={{}}/>
-            </AddNoise>
-          </AddColor>
+          <AddBiliner>
+            <AddColor
+              uniforms={{
+                color1: images.c1,
+                color2: images.c2,
+                color3: images.c3,
+                color4: images.c4,
+                color5: images.c5,
+              }}
+            >
+              <AddNoise>
+                <Node shader={shaders.Merge5To1}
+                      uniforms={{
+                        iTime: 0,
+                        t1: images.u1,
+                        t2: images.u2,
+                        t3: images.u3,
+                        t4: images.u4,
+                        t5: images.u5,
+                      }}
+                />
+                <Node shader={shaders.PerlinNoise}
+                      uniforms={{}}/>
+              </AddNoise>
+            </AddColor>
+          </AddBiliner>
         </AddBiliner>
       </Surface>
     </div>
