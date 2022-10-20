@@ -183,7 +183,8 @@ void main() {
   vec3 col5 = color5; 
   vec3 col = texture2D(t, uv.xy).xyz;
   vec3 origin_col = rgb2hsl(col);
-  float l = (origin_col.z - 0.5)*2.0 + 0.5;
+  // float l = (origin_col.z - 0.5)*2.0 + 0.5;
+  float l = sqrt(origin_col.z);
   vec3 start = vec3(0.0, 0.0, 0.0);
   vec3 end = vec3(1.0, 1.0, 1.0);
   if (l < 0.34) {
