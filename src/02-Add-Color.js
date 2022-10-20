@@ -134,54 +134,13 @@ float random(float income){
 
 void main() {
 
-  vec3 col1 = rgb2hsl(color1); 
-  vec3 col2 = rgb2hsl(color2); 
-  vec3 col3 = rgb2hsl(color3); 
-  vec3 col4 = rgb2hsl(color4); 
-  vec3 col5 = rgb2hsl(color5); 
-  vec3 col = rgb2hsl(texture2D(t, uv.xy).xyz);
-  
-  vec3 origin_col = col;
-  float l = (col.z - 0.5)*1.0 + 0.5;
-  vec3 start = vec3(0.0, 0.0, 0.0);
-  vec3 end = vec3(1.0, 1.0, 1.0);
-  if (l < 0.34) {
-    col.xyz = mix(start, col1.xyz, l/0.34*l/0.34);
-    // col.yz = origin_col.yz; 
-    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
-  }else if (l < 0.42) {
-    col.xyz = mix(col1.xyz, col2.xyz, (l-0.34)/0.08);
-    // col.yz = origin_col.yz; 
-    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
-  }else if (l < 0.50) {
-    col.xyz = mix(col2.xyz, col3.xyz, (l-0.42)/0.08);
-    // col.yz = origin_col.yz; 
-    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
-  }else if (l < 0.58) {
-    col.xyz = mix(col3.xyz, col4.xyz, (l-0.50)/0.08);
-    // col.yz = origin_col.yz; 
-    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
-  }else if (l < 0.66){
-    col.xyz = mix(col4.xyz, col5.xyz, (l-0.58)/0.08);
-    // col.yz = origin_col.yz; 
-    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
-  }else {
-    col.xyz = mix(col5.xyz, end, (l-0.66)/0.34);
-    // col.yz = origin_col.yz; 
-    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
-  }
-  col = hsl2rgb(col);
-  gl_FragColor = vec4(col, 1.0);
-  
-  
-  // rgb
-  
-  // vec3 col1 = color1; 
-  // vec3 col2 = color2; 
-  // vec3 col3 = color3; 
-  // vec3 col4 = color4; 
-  // vec3 col5 = color5; 
-  // vec3 col = texture2D(t, uv.xy).xyz;
+  // vec3 col1 = rgb2hsl(color1); 
+  // vec3 col2 = rgb2hsl(color2); 
+  // vec3 col3 = rgb2hsl(color3); 
+  // vec3 col4 = rgb2hsl(color4); 
+  // vec3 col5 = rgb2hsl(color5); 
+  // vec3 col = rgb2hsl(texture2D(t, uv.xy).xyz);
+  //
   // vec3 origin_col = col;
   // float l = (col.z - 0.5)*1.0 + 0.5;
   // vec3 start = vec3(0.0, 0.0, 0.0);
@@ -211,8 +170,48 @@ void main() {
   //   // col.yz = origin_col.yz; 
   //   // col.yz =  mix(origin_col.yz, col.yz, 0.5);
   // }
-  // // col = hsl2rgb(col);
+  // col = hsl2rgb(col);
   // gl_FragColor = vec4(col, 1.0);
+  
+  
+  // rgb
+  
+  vec3 col1 = color1; 
+  vec3 col2 = color2; 
+  vec3 col3 = color3; 
+  vec3 col4 = color4; 
+  vec3 col5 = color5; 
+  vec3 col = texture2D(t, uv.xy).xyz;
+  vec3 origin_col = col;
+  float l = (col.z - 0.5)*1.0 + 0.5;
+  vec3 start = vec3(0.0, 0.0, 0.0);
+  vec3 end = vec3(1.0, 1.0, 1.0);
+  if (l < 0.34) {
+    col.xyz = mix(start, col1.xyz, l/0.34*l/0.34);
+    // col.yz = origin_col.yz; 
+    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
+  }else if (l < 0.42) {
+    col.xyz = mix(col1.xyz, col2.xyz, (l-0.34)/0.08);
+    // col.yz = origin_col.yz; 
+    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
+  }else if (l < 0.50) {
+    col.xyz = mix(col2.xyz, col3.xyz, (l-0.42)/0.08);
+    // col.yz = origin_col.yz; 
+    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
+  }else if (l < 0.58) {
+    col.xyz = mix(col3.xyz, col4.xyz, (l-0.50)/0.08);
+    // col.yz = origin_col.yz; 
+    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
+  }else if (l < 0.66){
+    col.xyz = mix(col4.xyz, col5.xyz, (l-0.58)/0.08);
+    // col.yz = origin_col.yz; 
+    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
+  }else {
+    col.xyz = mix(col5.xyz, end, (l-0.66)/0.34);
+    // col.yz = origin_col.yz; 
+    // col.yz =  mix(origin_col.yz, col.yz, 0.5);
+  }
+  gl_FragColor = vec4(col, 1.0);
   
 }`
   }
