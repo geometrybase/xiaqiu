@@ -146,7 +146,8 @@ void main() {
   vec3 start = vec3(0.0, 0.0, 0.0);
   vec3 end = vec3(1.0, 1.0, 1.0);
   if (l < 0.34) {
-    col.xyz = mix(start, col1.xyz, l/0.34*l/0.34);
+    col.xyz = vec3(0.0);
+    // col.xyz = mix(start, col1.xyz, l/0.34*l/0.34);
   }else if (l < 0.42) {
     col.xyz = mix(col1.xyz, col2.xyz, (l-0.34)/0.08);
   }else if (l < 0.50) {
@@ -158,22 +159,6 @@ void main() {
   }else {
     col.xyz = mix(col5.xyz, end, (l-0.66)/0.34);
   }
-  
-  // if (l < 0.2) {
-  //   col.xyz = mix(start, col1.xyz, l/0.2);
-  // }else if (l < 0.35) {
-  //   col.xyz = mix(col1.xyz, col2.xyz, (l-0.2)/0.15);
-  // }else if (l < 0.5) {
-  //   col.xyz = mix(col2.xyz, col3.xyz, (l-0.35)/0.15);
-  // }else if (l < 0.65) {
-  //   col.xyz = mix(col3.xyz, col4.xyz, (l-0.5)/0.15);
-  // }else if (l < 0.8){
-  //   col.xyz = mix(col4.xyz, col5.xyz, (l-0.65)/0.15);
-  // }else {
-  //   col.xyz = mix(col5.xyz, end, (l-0.8)/0.2);
-  // }
-  
-  // gl_FragColor = vec4(hsl2rgb(col), 1.0);
   
   // vec3 rand_col = vec3(sin(random(uv.x * 250.0 - uv.y *  2125.0)), sin(random(uv.x * 80.0 + uv.y *  1.0 )), sin(random(uv.x * 8.0 - uv.y *  32.0 )));
   // if(rand_col.x > 0.9){
