@@ -187,28 +187,53 @@ void main() {
   float l = sqrt(origin_col.z);
   vec3 start = vec3(0.0, 0.0, 0.0);
   vec3 end = vec3(1.0, 1.0, 1.0);
-  if (l < 0.34) {
-    col.xyz = mix(start, col1.xyz, l/0.34*l/0.34);
+  // if (l < 0.34) {
+  //   col.xyz = mix(start, col1.xyz, l/0.34*l/0.34);
+  //   col = rgb2hsl(col);
+  //   // col.z = origin_col.z;
+  // }else if (l < 0.42) {
+  //   col.xyz = mix(col1.xyz, col2.xyz, (l-0.34)/0.08);
+  //   col = rgb2hsl(col);
+  //   // col.z = origin_col.z;
+  // }else if (l < 0.50) {
+  //   col.xyz = mix(col2.xyz, col3.xyz, (l-0.42)/0.08);
+  //   col = rgb2hsl(col);
+  //   // col.z = origin_col.z;
+  // }else if (l < 0.58) {
+  //   col.xyz = mix(col3.xyz, col4.xyz, (l-0.50)/0.08);
+  //   col = rgb2hsl(col);
+  //   // col.z = origin_col.z;
+  // }else if (l < 0.66){
+  //   col.xyz = mix(col4.xyz, col5.xyz, (l-0.58)/0.08);
+  //   col = rgb2hsl(col);
+  //   // col.z = origin_col.z;
+  // }else {
+  //   col.xyz = mix(col5.xyz, end, (l-0.66)/0.34);
+  //   col = rgb2hsl(col);
+  //   // col.z = origin_col.z;
+  // }
+  if (l < 0.4) {
+    col.xyz = mix(start, col1.xyz, l/0.4*l/0.4);
     col = rgb2hsl(col);
     // col.z = origin_col.z;
-  }else if (l < 0.42) {
-    col.xyz = mix(col1.xyz, col2.xyz, (l-0.34)/0.08);
+  }else if (l < 0.47) {
+    col.xyz = mix(col1.xyz, col2.xyz, (l-0.40)/0.07);
     col = rgb2hsl(col);
     // col.z = origin_col.z;
-  }else if (l < 0.50) {
-    col.xyz = mix(col2.xyz, col3.xyz, (l-0.42)/0.08);
+  }else if (l < 0.54) {
+    col.xyz = mix(col2.xyz, col3.xyz, (l-0.47)/0.07);
     col = rgb2hsl(col);
     // col.z = origin_col.z;
-  }else if (l < 0.58) {
-    col.xyz = mix(col3.xyz, col4.xyz, (l-0.50)/0.08);
+  }else if (l < 0.63) {
+    col.xyz = mix(col3.xyz, col4.xyz, (l-0.54)/0.07);
     col = rgb2hsl(col);
     // col.z = origin_col.z;
-  }else if (l < 0.66){
-    col.xyz = mix(col4.xyz, col5.xyz, (l-0.58)/0.08);
+  }else if (l < 0.70){
+    col.xyz = mix(col4.xyz, col5.xyz, (l-0.63)/0.07);
     col = rgb2hsl(col);
     // col.z = origin_col.z;
   }else {
-    col.xyz = mix(col5.xyz, end, (l-0.66)/0.34);
+    col.xyz = mix(col5.xyz, end, (l-0.68)/0.32);
     col = rgb2hsl(col);
     // col.z = origin_col.z;
   }
