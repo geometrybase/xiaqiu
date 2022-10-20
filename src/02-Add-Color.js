@@ -215,7 +215,7 @@ void main() {
   col = hsl2rgb(col);
   
   
-  float contrast = 1.2;
+  float contrast = 1.0;
 	col = ((col-vec3(0.5))*contrast)+vec3(0.5);
   
   gl_FragColor = vec4(col, 1.0);
