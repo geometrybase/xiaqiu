@@ -175,18 +175,13 @@ void main() {
   
   // gl_FragColor = vec4(hsl2rgb(col), 1.0);
   
-  vec3 rand_col = vec3(sin(random(uv.x * 250.0 - uv.y *  2125.0)), sin(random(uv.x * 80.0 + uv.y *  1.0 )), sin(random(uv.x * 8.0 - uv.y *  32.0 )));
-  // col = hsl2rgb(col);
-  // if(l > 0.5){
-  //   col = col*(1.0-l*l) + rand_col*l*l;
-  //   // col = rand_col*col;
+  // vec3 rand_col = vec3(sin(random(uv.x * 250.0 - uv.y *  2125.0)), sin(random(uv.x * 80.0 + uv.y *  1.0 )), sin(random(uv.x * 8.0 - uv.y *  32.0 )));
+  // if(rand_col.x > 0.9){
+  //   rand_col = rgb2hsl(rand_col);
+  //   rand_col.y = col.y;
+  //   rand_col.z = col.z; 
+  //   col = rand_col;
   // }
-  if(rand_col.x > 0.7){
-    rand_col = rgb2hsl(rand_col);
-    rand_col.y = col.y;
-    rand_col.z = col.z; 
-    col = rand_col;
-  }
    col = hsl2rgb(col);
 
    gl_FragColor = vec4(col, 1.0);
