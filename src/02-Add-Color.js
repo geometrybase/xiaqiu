@@ -236,7 +236,7 @@ void main() {
   }else {
     col.xyz = mix(col5.xyz, end, (l-0.65)/0.35);
     col = rgb2hsl(col);
-    col.z = (origin_col.z + 1.0*col.z)/2.0;
+    // col.z = (origin_col.z + 1.0*col.z)/2.0;
   }
   col = hsl2rgb(col);
   gl_FragColor = vec4(col, 1.0);
