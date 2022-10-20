@@ -141,37 +141,29 @@ void main() {
   vec3 col5 = rgb2hsl(color5); 
 
   vec3 col = rgb2hsl(texture2D(t, uv.xy).xyz);
-  vec3 col_origin = col;
   float l = col.z;
   vec3 start = vec3(0.0, 0.0, 0.0);
   vec3 end = vec3(1.0, 1.0, 1.0);
   if (l < 0.34) {
-    col.xyz = vec3(0.0);
-    // col.xyz = mix(start, col1.xyz, l/0.34*l/0.34);
+    col.xyz = mix(start, col1.xyz, l/0.34*l/0.34);
   }else if (l < 0.42) {
     col.xyz = mix(col1.xyz, col2.xyz, (l-0.34)/0.08);
+    col.z = l;
   }else if (l < 0.50) {
     col.xyz = mix(col2.xyz, col3.xyz, (l-0.42)/0.08);
+    col.z = l;
   }else if (l < 0.58) {
     col.xyz = mix(col3.xyz, col4.xyz, (l-0.50)/0.08);
+    col.z = l;
   }else if (l < 0.66){
     col.xyz = mix(col4.xyz, col5.xyz, (l-0.58)/0.08);
+    col.z = l;
   }else {
     col.xyz = mix(col5.xyz, end, (l-0.66)/0.34);
   }
+  col = hsl2rgb(col);
+  gl_FragColor = vec4(col, 1.0);
   
-  // vec3 rand_col = vec3(sin(random(uv.x * 250.0 - uv.y *  2125.0)), sin(random(uv.x * 80.0 + uv.y *  1.0 )), sin(random(uv.x * 8.0 - uv.y *  32.0 )));
-  // if(rand_col.x > 0.9){
-  //   rand_col = rgb2hsl(rand_col);
-  //   rand_col.y = col.y;
-  //   rand_col.z = col.z; 
-  //   col = rand_col;
-  // }
-   col = hsl2rgb(col);
-
-   gl_FragColor = vec4(col, 1.0);
-  
-	// gl_FragColor = mix(col_origin, col, 1.0);
 }`
   }
 });
