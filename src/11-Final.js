@@ -202,10 +202,6 @@ float noise(vec2 p )
 }
 
 void main() {
-  // float f = noise( 16.0*uv );
-  // f = 0.5 + 0.5*f;
-	// gl_FragColor = vec4(f,f,f,1.0);
-	
   float f = noise( 16.0*uv.xy );
   f = 0.5 + 0.4*f;
 	gl_FragColor = vec4(f,f,f,1.0);
@@ -464,7 +460,7 @@ function AnimatedBackground({width, height, children: t}) {
         <div style={{backgroundColor:`rgb(${Math.floor(images.c4[0]*255)}, ${Math.floor(images.c4[1]*255)}, ${Math.floor(images.c4[2]*255)})`}}></div>
         <div style={{backgroundColor:`rgb(${Math.floor(images.c5[0]*255)}, ${Math.floor(images.c5[1]*255)}, ${Math.floor(images.c5[2]*255)})`}}></div>
       </div>
-      <Surface width={800} height={800} pixelRatio={window.devicePixelRatio} version={"webgl2"}>
+      <Surface width={800*window.devicePixelRatio} height={800*window.devicePixelRatio} pixelRatio={window.devicePixelRatio} version={"webgl2"}>
         <AddBiliner>
           <AddColor
             uniforms={{
