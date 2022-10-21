@@ -468,8 +468,8 @@ function AnimatedBackground({width, height, children: t}) {
       <Surface
         width={800}
         height={800}
-        // pixelRatio={window.devicePixelRatio}
-        pixelRatio={1}
+        pixelRatio={window.devicePixelRatio}
+        // pixelRatio={1}
         version={"webgl2"}
       >
         <AddBiliner>
