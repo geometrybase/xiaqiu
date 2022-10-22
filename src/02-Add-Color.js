@@ -256,6 +256,10 @@ void main() {
   col = rgb2hsl(col);
   col.z = (origin_col.z + col.z)*0.5;
   col = hsl2rgb(col);
+  
+  float contrast = 1.2;
+	col = vec4(((col-vec3(0.5))*contrast)+vec3(0.5), 1.0);
+  
   gl_FragColor = vec4(col, 1.0); 
   
 }`
